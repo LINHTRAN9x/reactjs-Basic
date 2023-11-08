@@ -1,38 +1,65 @@
 import React from "react";
+import ChildComponent from "./ChildComponent";
+import AddComponent from "./AddComponent";
 
 class MyComponent extends React.Component {
     state = {
-        name : 'Ronaldo',
-        channel: 'Hoi dan IT',
+        arrJobs: [
+            {id:"abcJob1",title:"Developer", salary:"500"},
+            {id:"abcJob2",title:"Testers", salary:"400"},
+            {id:"abcJob3",title:"Project managers", salary:"1000"},
+        ],
+    }
+    
+    addNewJob = (job) => {
+        this.setState({
+            arrJobs: [...this.state.arrJobs, job],
+        })
+       
+
     }
 
-    handleOnChangeName = (event) => {
+    deleteAJob = (job) => {
+        let currentJob = this.state.arrJobs;
+        currentJob = currentJob.filter(item => item.id !== job.id)
         this.setState({
-            name : event.target.value
+            arrJobs: currentJob,
         })
     }
+    
+    // state = {
+    //     name : 'Ronaldo',
+    //     channel: 'Hoi dan IT',
+    // }
 
-    handleClickButton = () => {
-        alert('Click me');
-    }
+    // handleOnChangeName = (event) => {
+    //     // this.state.name = event.target.name; BAD CODE NEVER USE
+    //     this.setState({
+    //         name : event.target.value,
+    //     })
+    // }
+
+    // handleClickButton = () => {
+    //     alert('Click me');
+    // }
 
     //  JSX 
     render() {
-
-
-        return (/*className not class*/
-        // <></> React.Fragment shortcut
-        <>
-            <div className="first">
-                <input type="text" value={this.state.name} onChange={(event) => this.handleOnChangeName(event)}></input>
-                Hello my name is {this.state.name} 
-            </div>
-            <div>My youtube channel {this.state['channel']}</div>
-            <div className="third">
-                <button onClick={() => this.handleClickButton()}>Click me</button>
-            </div>
-        </>
+        console.log(this.state);
+        return(
+            <>
+            <AddComponent 
+                addNewJob = {this.addNewJob}
+            />
+                
+                <ChildComponent 
+                    arrJobs={this.state.arrJobs} 
+                    deleteAJob = {this.deleteAJob}
+                />
+            </>
         )
+
+        
     }
 }
 
